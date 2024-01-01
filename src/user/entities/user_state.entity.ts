@@ -4,7 +4,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'user_state' })
 export class UserState extends AbstractEntity {
-
   @ApiProperty()
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
   id: number;

@@ -6,6 +6,8 @@ import { Transactional } from 'typeorm-transactional';
 import { UpdateProfileDTO } from './dto/update-profile.dto';
 import { UserState } from './entities/user_state.entity';
 import { UpdateStateDTO } from './dto/update-state.dto';
+import { Organization } from 'src/organization/entities/organization.entity';
+import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
 
 @Injectable()
 export class UserService {
@@ -14,7 +16,11 @@ export class UserService {
     private readonly userInfoRepository: Repository<UserInfo>,
     @InjectRepository(UserState)
     private readonly userStateRepository: Repository<UserState>,
-  ) { }
+    @InjectRepository(Organization)
+    private readonly userOrganizationRepository: Repository<Organization>,
+    @InjectRepository(OrganizationMember)
+    private readonly userOrganizationMemberRepository: Repository<OrganizationMember>,
+  ) {}
 
   @Transactional()
   async updateProfile(request, updateProfileDTO: UpdateProfileDTO) {
@@ -58,7 +64,6 @@ export class UserService {
       },
     });
 
-
     if (orgId && orgId !== userState.orgId) {
       userState.orgId = orgId;
     }
@@ -68,7 +73,7 @@ export class UserService {
 
   @Transactional()
   async getProfile(request) {
-    const { id } = request.user
+    const { id } = request.user;
     const userInfo = await this.userInfoRepository.findOne({
       where: {
         id: id,
@@ -79,9 +84,20 @@ export class UserService {
         userId: id,
       },
     });
+
+    const organizations = await this.userOrganizationRepository
+      .createQueryBuilder('organization')
+      .innerJoin(
+        OrganizationMember,
+        'orgMember',
+        'orgMember.organizationId = organization.id',
+      )
+      .where('orgMember.userId = :id', { id })
+      .getMany();
     return {
       ...userInfo,
       currentOrg: userState ? userState.orgId : null,
-    }
+      organizations: organizations,
+    };
   }
 }

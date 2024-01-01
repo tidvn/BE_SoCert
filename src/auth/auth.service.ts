@@ -1,13 +1,13 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
-import { BadRequestException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserInfo } from 'src/user/entities/user_info.entity';
 import { Repository } from 'typeorm';
 import { isNil } from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-import { JWT_ACCESS_EXPIRES_IN, JWT_ACCESS_SECRET, WALLET_NONCE_TTL } from 'src/app.environment';
+import { WALLET_NONCE_TTL } from 'src/app.environment';
 import { Network } from 'src/common/common.enum';
 import { WalletSignatureDTO } from './dto/wallet-signature.dto';
 import { verifyMessage } from 'src/utils/util.signature';
@@ -20,8 +20,7 @@ export class AuthService {
     @InjectRepository(UserInfo)
     private readonly userInfoRepository: Repository<UserInfo>,
     private jwtService: JwtService,
-  ) { }
-
+  ) {}
 
   async getNonce(walletAddress: string): Promise<any> {
     const userInfo = await this.userInfoRepository.findOne({
@@ -76,7 +75,10 @@ export class AuthService {
   }
 
   private generateTokens(user: UserInfo): any {
-    const accessToken = this.jwtService.sign({ sub: user.id, addr: user.walletAddress });
+    const accessToken = this.jwtService.sign({
+      sub: user.id,
+      addr: user.walletAddress,
+    });
     return { accessToken: accessToken };
   }
 }

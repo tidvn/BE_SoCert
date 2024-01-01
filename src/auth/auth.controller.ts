@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Network } from 'src/common/common.enum';
 import { WalletSignatureDTO } from './dto/wallet-signature.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
   @Get('/wallet/:walletAddress/nonce')
   getNonce(@Param('walletAddress') walletAddress: string): any {

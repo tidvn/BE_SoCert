@@ -1,4 +1,4 @@
 export interface WalletConnectResDto {
-    walletAddress: string;
-    nonce: string;
-  }
+  walletAddress: string;
+  nonce: string;
+}

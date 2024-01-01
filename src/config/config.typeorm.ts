@@ -17,7 +17,7 @@ export const dataSourceOptions: TypeOrmModuleOptions = {
   password: DATABASE_PASSWORD,
   database: DATABASE_NAME,
   autoLoadEntities: true,
-  synchronize:true,
+  synchronize: true,
   logger: 'file',
   logging: ['warn', 'error'],
 };

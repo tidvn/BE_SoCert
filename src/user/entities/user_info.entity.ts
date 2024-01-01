@@ -4,29 +4,28 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'user_info' })
 export class UserInfo extends AbstractEntity {
-
   @ApiProperty()
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
   id: number;
 
   @ApiProperty()
-  @Column({ name: 'first_name', default: "" })
+  @Column({ name: 'first_name', default: '' })
   firstName: string;
 
   @ApiProperty()
-  @Column({ name: 'last_name', default: "" })
+  @Column({ name: 'last_name', default: '' })
   lastName: string;
 
   @ApiProperty()
-  @Column({ name: 'image', default: "" })
+  @Column({ name: 'image', default: '' })
   image: string;
 
   @ApiProperty()
-  @Column({ name: 'email', default: "" })
+  @Column({ name: 'email', default: '' })
   email: string;
 
   @ApiProperty()
-  @Column({ name: 'phone', default: "" })
+  @Column({ name: 'phone', default: '' })
   phone: string;
 
   @ApiProperty()
@@ -40,6 +39,4 @@ export class UserInfo extends AbstractEntity {
   @ApiProperty()
   @Column({ name: 'enable', default: false })
   enable: boolean;
-
-
 }
