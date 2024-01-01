@@ -18,6 +18,10 @@ export class UserInfo extends AbstractEntity {
   lastName: string;
 
   @ApiProperty()
+  @Column({ name: 'image', default: "" })
+  image: string;
+
+  @ApiProperty()
   @Column({ name: 'email', default: "" })
   email: string;
 
