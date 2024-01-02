@@ -8,6 +8,7 @@ import { UserState } from './entities/user_state.entity';
 import { UpdateStateDTO } from './dto/update-state.dto';
 import { Organization } from 'src/organization/entities/organization.entity';
 import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
+import { isNil } from 'lodash';
 
 @Injectable()
 export class UserService {
@@ -20,7 +21,7 @@ export class UserService {
     private readonly userOrganizationRepository: Repository<Organization>,
     @InjectRepository(OrganizationMember)
     private readonly userOrganizationMemberRepository: Repository<OrganizationMember>,
-  ) {}
+  ) { }
 
   @Transactional()
   async updateProfile(request, updateProfileDTO: UpdateProfileDTO) {
@@ -56,18 +57,32 @@ export class UserService {
   @Transactional()
   async updateUserState(request, updateStateDTO: UpdateStateDTO) {
     const { id } = request.user;
-    const { orgId } = updateStateDTO;
-
+    const { organizationId } = updateStateDTO;
+    const userOrganization = await this.userOrganizationMemberRepository.findOne({
+      where: {
+        userId: id,
+        organizationId: organizationId,
+      },
+    });
+    if (!userOrganization) {
+      throw new Error('User is not in this organization');
+    }
     const userState = await this.userStateRepository.findOne({
       where: {
         userId: id,
       },
     });
-
-    if (orgId && orgId !== userState.orgId) {
-      userState.orgId = orgId;
+    if(isNil(userState)) {
+      const newUserState = new UserState();
+      newUserState.userId = id;
+      newUserState.organizationId = organizationId;
+      await this.userStateRepository.save(newUserState);
+      return;
     }
 
+    if (organizationId && organizationId !== userState.organizationId) {
+      userState.organizationId = organizationId;
+    }
     await this.userStateRepository.save(userState);
   }
 
@@ -96,7 +111,7 @@ export class UserService {
       .getMany();
     return {
       ...userInfo,
-      currentOrg: userState ? userState.orgId : null,
+      currentOrg: userState ? userState.organizationId : null,
       organizations: organizations,
     };
   }

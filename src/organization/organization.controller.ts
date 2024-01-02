@@ -5,8 +5,4 @@ import { OrganizationService } from './organization.service';
 export class OrganizationController {
   constructor(private readonly organizationService: OrganizationService) {}
 
-  @Get()
-  findAll() {
-    return this.organizationService.findAll();
-  }
 }

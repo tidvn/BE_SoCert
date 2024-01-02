@@ -14,5 +14,5 @@ export class UserState extends AbstractEntity {
 
   @ApiProperty()
   @Column({ name: 'current_org' })
-  orgId: number;
+  organizationId: number;
 }
