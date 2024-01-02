@@ -8,6 +8,7 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { dbOrmModuleAsync } from './config/config.typeorm';
 import { OrganizationModule } from './organization/organization.module';
+import { ImageModule } from './image/image.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { OrganizationModule } from './organization/organization.module';
     LoggerModule.forRoot(loggerOptions[NODE_ENV] as Params),
     CacheModule.register(),
     AuthModule,
+    ImageModule,
     OrganizationModule,
   ],
   controllers: [AppController],
