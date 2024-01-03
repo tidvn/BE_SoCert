@@ -7,7 +7,7 @@ import { UpdateStateDTO } from './dto/update-state.dto';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)

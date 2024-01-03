@@ -9,23 +9,23 @@ export class UserInfo extends AbstractEntity {
   id: number;
 
   @ApiProperty()
-  @Column({ name: 'first_name', default: '' })
+  @Column({ name: 'first_name', nullable: true })
   firstName: string;
 
   @ApiProperty()
-  @Column({ name: 'last_name', default: '' })
+  @Column({ name: 'last_name', nullable: true })
   lastName: string;
 
   @ApiProperty()
-  @Column({ name: 'image', default: '' })
+  @Column({ name: 'image', nullable: true })
   image: string;
 
   @ApiProperty()
-  @Column({ name: 'email', default: '' })
+  @Column({ name: 'email', nullable: true })
   email: string;
 
   @ApiProperty()
-  @Column({ name: 'phone', default: '' })
+  @Column({ name: 'phone', nullable: true })
   phone: string;
 
   @ApiProperty()
