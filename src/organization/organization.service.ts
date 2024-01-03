@@ -14,13 +14,14 @@ export class OrganizationService {
     private readonly organizationRepository: Repository<Organization>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) { }
+  ) {}
 
   async initData() {
     const companyData = [
       {
         name: 'Solana Consumer Hack 11',
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw_tRCZ0k2qSd5B9R334Bk7Sf3qgz4qTWdeJTycNFpdQ&s',
+        image:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw_tRCZ0k2qSd5B9R334Bk7Sf3qgz4qTWdeJTycNFpdQ&s',
         email: 'info@solana.com',
         phone: '123-456-7890',
         website: 'www.solana.com',
@@ -61,7 +62,7 @@ export class OrganizationService {
     ];
     const userInfo = await this.userInfoRepository.findOne({
       where: {
-        walletAddress: "HcUY736DPeVuFSj85nufCDXCY8sLfk517DsF6GSH1yvA",
+        walletAddress: 'HcUY736DPeVuFSj85nufCDXCY8sLfk517DsF6GSH1yvA',
       },
     });
     companyData.map(async (company) => {

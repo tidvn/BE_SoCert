@@ -11,7 +11,8 @@ export class ImageController {
     @Param('templateId') templateId: string,
     @Res() res: Response,
   ): Promise<any> {
-    const certificateImage = await this.imageService.getDemoCertificate(templateId);
+    const certificateImage =
+      await this.imageService.getDemoCertificate(templateId);
     res.setHeader('Content-Type', 'image/png');
     res.send(certificateImage);
   }

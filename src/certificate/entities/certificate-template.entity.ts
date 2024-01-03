@@ -9,6 +9,10 @@ export class CertificateTemplate extends AbstractEntity {
   id: string;
 
   @ApiProperty()
+  @Column({ name: 'name' })
+  name: string;
+
+  @ApiProperty()
   @Column({ name: 'background', nullable: true })
   background: string;
 
@@ -27,7 +31,6 @@ export class CertificateTemplate extends AbstractEntity {
   @ApiProperty()
   @Column({ name: 'demo', nullable: true, type: 'jsonb' })
   demo: Record<string, any>;
-
 }
 
 interface AtributtesCanvas {

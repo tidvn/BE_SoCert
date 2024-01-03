@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AbstractEntity } from 'src/common/common.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 
 @Entity({ name: 'organization' })
 export class Organization extends AbstractEntity {
   @ApiProperty()
-  @Column({ name: 'id', default: () => 'gen_random_uuid()',primary: true })
+  @Column({ name: 'id', default: () => 'gen_random_uuid()', primary: true })
   id: string;
 
   @ApiProperty()

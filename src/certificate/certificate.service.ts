@@ -8,11 +8,12 @@ export class CertificateService {
   constructor(
     @InjectRepository(CertificateTemplate)
     private readonly certificateTemplateRepository: Repository<CertificateTemplate>,
-  ) { }
+  ) {}
 
   async createCertificateTemplate() {
     const certificateTemplate = [
       {
+        name: 'Certificate Template 1',
         backgroundUrl: 'https://i.imgur.com/rJrxCWK.png',
         height: 2000,
         width: 1414,
@@ -43,12 +44,13 @@ export class CertificateService {
           name: '[Full Name Here]',
           date: '[01/01/2024]',
           signature: '[Signature Here]',
-        }
+        },
       },
     ];
 
     certificateTemplate.map(async (item) => {
       const template = new CertificateTemplate();
+      template.name = item.name;
       template.background = item.backgroundUrl;
       template.height = item.height;
       template.width = item.width;

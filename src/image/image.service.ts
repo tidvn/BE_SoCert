@@ -9,17 +9,15 @@ export class ImageService {
   constructor(
     @InjectRepository(CertificateTemplate)
     private readonly certificateTemplateRepository: Repository<CertificateTemplate>,
-  ) { }
+  ) {}
 
   async getDemoCertificate(id: string) {
-
     const template = await this.certificateTemplateRepository.findOne({
       where: {
         id: id,
       },
     });
     return await this.drawCanvas(template, template.demo);
-
   }
 
   private async drawCanvas(template: CertificateTemplate, data: any) {

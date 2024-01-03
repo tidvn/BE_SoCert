@@ -17,7 +17,6 @@ export class OrganizationMember extends AbstractEntity {
   organizationId: string;
 
   @ApiProperty()
-  @Column({ name: 'role',nullable: true })
+  @Column({ name: 'role', nullable: true })
   role: string;
-
 }
