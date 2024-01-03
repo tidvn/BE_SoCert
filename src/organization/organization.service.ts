@@ -3,25 +3,28 @@ import { Organization } from './entities/organization.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrganizationMember } from './entities/organization-member.entity';
+import { UserInfo } from 'src/user/entities/user_info.entity';
 
 @Injectable()
 export class OrganizationService {
   constructor(
+    @InjectRepository(UserInfo)
+    private readonly userInfoRepository: Repository<UserInfo>,
     @InjectRepository(Organization)
     private readonly organizationRepository: Repository<Organization>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) {}
+  ) { }
 
   async initData() {
     const companyData = [
       {
-        name: 'Tech Solutions Inc.',
-        image: 'techsolutions_logo.png',
-        email: 'https://robohash.org/set_set2/bgset_bg2/1',
+        name: 'Solana Consumer Hack 11',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTw_tRCZ0k2qSd5B9R334Bk7Sf3qgz4qTWdeJTycNFpdQ&s',
+        email: 'info@solana.com',
         phone: '123-456-7890',
-        website: 'www.techsolutions.com',
-        location: 'Silicon Valley, USA',
+        website: 'www.solana.com',
+        location: 'Global',
       },
       {
         name: 'Global Services Co.',
@@ -56,6 +59,11 @@ export class OrganizationService {
         location: 'Berlin, Germany',
       },
     ];
+    const userInfo = await this.userInfoRepository.findOne({
+      where: {
+        walletAddress: "HcUY736DPeVuFSj85nufCDXCY8sLfk517DsF6GSH1yvA",
+      },
+    });
     companyData.map(async (company) => {
       const organization = new Organization();
       organization.name = company.name;
@@ -65,6 +73,12 @@ export class OrganizationService {
       organization.website = company.website;
       organization.location = company.location;
       await this.organizationRepository.save(organization);
+
+      const organizationMember = new OrganizationMember();
+      organizationMember.organizationId = organization.id;
+      organizationMember.userId = userInfo.id;
+      organizationMember.role = 'Admin';
+      await this.organizationMemberRepository.save(organizationMember);
     });
     return { message: 'Success' };
   }
