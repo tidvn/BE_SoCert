@@ -40,12 +40,12 @@ async function bootstrap() {
     new LoggerErrorInterceptor(),
   );
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  if (NODE_ENV != 'production') {
-    const document = SwaggerModule.createDocument(app, swaggerOptions, {
-      extraModels: [PagingResponse],
-    });
-    SwaggerModule.setup(SWAGGER_ENDPOINT, app, document);
-  }
+  // if (NODE_ENV != 'production') {
+  const document = SwaggerModule.createDocument(app, swaggerOptions, {
+    extraModels: [PagingResponse],
+  });
+  SwaggerModule.setup(SWAGGER_ENDPOINT, app, document);
+  // }
 
   await app.listen(PORT);
 }
