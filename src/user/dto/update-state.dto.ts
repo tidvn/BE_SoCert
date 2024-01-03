@@ -4,5 +4,5 @@ import { IsNotEmpty } from 'class-validator';
 export class UpdateStateDTO {
   @ApiProperty()
   @IsNotEmpty()
-  organizationId: number;
+  organizationId: string;
 }

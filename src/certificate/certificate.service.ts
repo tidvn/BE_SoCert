@@ -13,6 +13,7 @@ export class CertificateService {
   async createCertificateTemplate() {
     const certificateTemplate = [
       {
+        name: 'Certificate Template 1',
         backgroundUrl: 'https://i.imgur.com/rJrxCWK.png',
         height: 2000,
         width: 1414,
@@ -39,15 +40,22 @@ export class CertificateService {
             y: 1080,
           },
         ],
+        demo: {
+          name: '[Full Name Here]',
+          date: '[01/01/2024]',
+          signature: '[Signature Here]',
+        },
       },
     ];
 
     certificateTemplate.map(async (item) => {
       const template = new CertificateTemplate();
+      template.name = item.name;
       template.background = item.backgroundUrl;
       template.height = item.height;
       template.width = item.width;
       template.atributtes = item.atributtes;
+      template.demo = item.demo;
       await this.certificateTemplateRepository.save(template);
     });
   }

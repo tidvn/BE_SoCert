@@ -1,20 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { AbstractEntity } from 'src/common/common.entity';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 
 @Entity({ name: 'certificate' })
 export class Certificate extends AbstractEntity {
   @ApiProperty()
-  @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
-  id: number;
+  @Column({ name: 'id', default: () => 'gen_random_uuid()', primary: true })
+  id: string;
 
   @ApiProperty()
   @Column({ name: 'template ', nullable: true })
-  template: number;
+  template: string;
 
   @ApiProperty()
   @Column({ name: 'organization_id ' })
-  organizationId: number;
+  organizationId: string;
 
   @ApiProperty()
   @Column({ name: 'address', unique: true })
@@ -30,9 +30,9 @@ export class Certificate extends AbstractEntity {
 
   @ApiProperty()
   @Column({ name: 'metadata', nullable: true, type: 'jsonb' })
-  metadata: JSON;
+  metadata: Record<string, any>;
 
   @ApiProperty()
   @Column({ name: 'author ', nullable: true, type: 'jsonb' })
-  author: JSON;
+  author: Record<string, any>;
 }

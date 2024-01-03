@@ -6,14 +6,14 @@ import { Response } from 'express';
 export class ImageController {
   constructor(private readonly imageService: ImageService) {}
 
-  @Get(':id')
-  async createCertificate(
-    @Param('id') id: string,
+  @Get('/template/:templateId.png')
+  async getDemoCertificate(
+    @Param('templateId') templateId: string,
     @Res() res: Response,
   ): Promise<any> {
-    const certificateImage = await this.imageService.createCertificate(id);
+    const certificateImage =
+      await this.imageService.getDemoCertificate(templateId);
     res.setHeader('Content-Type', 'image/png');
-    // res.setHeader('Content-Disposition', 'attachment; filename=certificate.png');
     res.send(certificateImage);
   }
 }
