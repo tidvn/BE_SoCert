@@ -18,9 +18,9 @@ export class UserService {
     @InjectRepository(UserState)
     private readonly userStateRepository: Repository<UserState>,
     @InjectRepository(Organization)
-    private readonly userOrganizationRepository: Repository<Organization>,
+    private readonly organizationRepository: Repository<Organization>,
     @InjectRepository(OrganizationMember)
-    private readonly userOrganizationMemberRepository: Repository<OrganizationMember>,
+    private readonly organizationMemberRepository: Repository<OrganizationMember>,
   ) {}
 
   @Transactional()
@@ -58,13 +58,12 @@ export class UserService {
   async updateUserState(request, updateStateDTO: UpdateStateDTO) {
     const { id } = request.user;
     const { organizationId } = updateStateDTO;
-    const userOrganization =
-      await this.userOrganizationMemberRepository.findOne({
-        where: {
-          userId: id,
-          organizationId: organizationId,
-        },
-      });
+    const userOrganization = await this.organizationMemberRepository.findOne({
+      where: {
+        userId: id,
+        organizationId: organizationId,
+      },
+    });
     if (!userOrganization) {
       throw new Error('User is not in this organization');
     }
@@ -101,7 +100,7 @@ export class UserService {
       },
     });
 
-    const organizations = await this.userOrganizationRepository
+    const organizations = await this.organizationRepository
       .createQueryBuilder('organization')
       .innerJoin(
         OrganizationMember,

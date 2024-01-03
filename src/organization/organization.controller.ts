@@ -1,7 +1,5 @@
-import { Body, Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { OrganizationService } from './organization.service';
-import { ApiBearerAuth } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('organization')
 export class OrganizationController {

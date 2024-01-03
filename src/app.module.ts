@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { dbOrmModuleAsync } from './config/config.typeorm';
 import { OrganizationModule } from './organization/organization.module';
 import { ImageModule } from './image/image.module';
+import { CertificateModule } from './certificate/certificate.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { ImageModule } from './image/image.module';
     AuthModule,
     ImageModule,
     OrganizationModule,
+    CertificateModule,
   ],
   controllers: [AppController],
   providers: [AppService],

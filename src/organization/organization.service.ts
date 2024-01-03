@@ -1,4 +1,3 @@
-import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 import { Organization } from './entities/organization.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -9,13 +8,13 @@ import { OrganizationMember } from './entities/organization-member.entity';
 export class OrganizationService {
   constructor(
     @InjectRepository(Organization)
-    private readonly userOrganizationRepository: Repository<Organization>,
+    private readonly organizationRepository: Repository<Organization>,
     @InjectRepository(OrganizationMember)
-    private readonly userOrganizationMemberRepository: Repository<OrganizationMember>,
+    private readonly organizationMemberRepository: Repository<OrganizationMember>,
   ) {}
 
   async initData() {
-    const data = [
+    const companyData = [
       {
         name: 'Tech Solutions Inc.',
         image: 'techsolutions_logo.png',
@@ -57,16 +56,16 @@ export class OrganizationService {
         location: 'Berlin, Germany',
       },
     ];
-    for (let i = 0; i < data.length; i++) {
+    companyData.map(async (company) => {
       const organization = new Organization();
-      organization.name = data[i].name;
-      organization.image = data[i].image;
-      organization.email = data[i].email;
-      organization.phone = data[i].phone;
-      organization.website = data[i].website;
-      organization.location = data[i].location;
-      await this.userOrganizationRepository.save(organization);
-    }
+      organization.name = company.name;
+      organization.image = company.image;
+      organization.email = company.email;
+      organization.phone = company.phone;
+      organization.website = company.website;
+      organization.location = company.location;
+      await this.organizationRepository.save(organization);
+    });
     return { message: 'Success' };
   }
 }

@@ -9,26 +9,26 @@ export class Organization extends AbstractEntity {
   id: number;
 
   @ApiProperty()
-  @Column({ name: 'name', default: '' })
+  @Column({ name: 'name', nullable: true })
   name: string;
 
   @ApiProperty()
-  @Column({ name: 'image', default: '' })
+  @Column({ name: 'image', nullable: true })
   image: string;
 
   @ApiProperty()
-  @Column({ name: 'email', default: '' })
+  @Column({ name: 'email', nullable: true })
   email: string;
 
   @ApiProperty()
-  @Column({ name: 'phone', default: '' })
+  @Column({ name: 'phone', nullable: true })
   phone: string;
 
   @ApiProperty()
-  @Column({ name: 'website', default: '' })
+  @Column({ name: 'website', nullable: true })
   website: string;
 
   @ApiProperty()
-  @Column({ name: 'location', default: '' })
+  @Column({ name: 'location', nullable: true })
   location: string;
 }
