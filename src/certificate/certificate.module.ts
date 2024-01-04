@@ -7,11 +7,13 @@ import { StudentCertificate } from './entities/student-certificate';
 import { CertificateTemplate } from './entities/certificate-template.entity';
 import { UserInfo } from 'src/user/entities/user_info.entity';
 import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
+import { UserState } from 'src/user/entities/user_state.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       UserInfo,
+      UserState,
       OrganizationMember,
       Certificate,
       CertificateTemplate,

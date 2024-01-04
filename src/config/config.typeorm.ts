@@ -18,8 +18,8 @@ export const dataSourceOptions: TypeOrmModuleOptions = {
   database: DATABASE_NAME,
   autoLoadEntities: true,
   synchronize: true,
-  logger: 'file',
-  logging: ['warn', 'error'],
+  // logger: 'file',
+  // logging: ['warn', 'error'],
 };
 
 export const dbOrmModuleAsync = TypeOrmModule.forRootAsync({

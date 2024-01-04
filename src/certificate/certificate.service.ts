@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Equal, Not, Repository } from 'typeorm';
 import { CertificateTemplate } from './entities/certificate-template.entity';
 import { UserInfo } from 'src/user/entities/user_info.entity';
 import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
+import { UserState } from 'src/user/entities/user_state.entity';
+import { isNil } from 'lodash';
 
 @Injectable()
 export class CertificateService {
@@ -12,9 +14,11 @@ export class CertificateService {
     private readonly certificateTemplateRepository: Repository<CertificateTemplate>,
     @InjectRepository(UserInfo)
     private readonly userInfoRepository: Repository<UserInfo>,
+    @InjectRepository(UserState)
+    private readonly userStateRepository: Repository<UserState>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) {}
+  ) { }
 
   async init() {
     const certificateTemplate = [
@@ -87,7 +91,7 @@ export class CertificateService {
         },
       },
       {
-        name: 'certificate of completion of the course',  
+        name: 'certificate of completion of the course',
         background: 'https://i.imgur.com/TVrqssc.png',
         height: 2000,
         width: 1414,
@@ -101,7 +105,7 @@ export class CertificateService {
           }
         ],
         demo: {
-          name: '[Full Name Here]'       
+          name: '[Full Name Here]'
         },
       },
       {
@@ -119,7 +123,7 @@ export class CertificateService {
           }
         ],
         demo: {
-          name: '[Full Name Here]'       
+          name: '[Full Name Here]'
         },
       },
       {
@@ -137,7 +141,7 @@ export class CertificateService {
           }
         ],
         demo: {
-          name: '[Full Name Here]'       
+          name: '[Full Name Here]'
         },
       },
       {
@@ -160,11 +164,11 @@ export class CertificateService {
             x: 230,
             y: 1580,
           }
-  
+
         ],
         demo: {
           name: '[Full Name Here]',
-          date: '[01/01/2024]',       
+          date: '[01/01/2024]',
         },
       }
     ];
@@ -193,18 +197,36 @@ export class CertificateService {
     });
   }
 
-  async getTemplate(request) {
+  async getCertificateTemplate(request, organizationId) {
     const { user } = request;
-    const listCertificate = await this.certificateTemplateRepository.find({
-      where: [
-        {
-          organizationId: user.organizationId,
-        },
-        {
-          public: true,
-        },
-      ],
+    const organizationMember = await this.organizationMemberRepository.findOne({
+      where: {
+        userId: user.id,
+        organizationId: organizationId,
+      },
     });
-    return listCertificate;
+  if (isNil(organizationMember)) {
+      throw new Error('User is not in this organization');
+    }
+    const listPrivateCertificate = await this.certificateTemplateRepository.find({
+      where:
+      {
+        organizationId: organizationId,
+        public: false,
+      },
+
+    });
+    const listPublicCertificate = await this.certificateTemplateRepository.find({
+      where:
+      {
+        public: true,
+        // organizationId: Not(Equal(organizationId)),
+      },
+
+    });
+    return {
+      privateCertificates: listPrivateCertificate,
+      publicCertificates: listPublicCertificate,
+    };
   }
 }
