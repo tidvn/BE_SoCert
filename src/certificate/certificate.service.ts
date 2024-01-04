@@ -19,8 +19,7 @@ export class CertificateService {
   async init() {
     const certificateTemplate = [
       {
-        name: 'Certificate Template 1',
-
+        name: 'certificate of participation in the event',
         background: 'https://i.imgur.com/rJrxCWK.png',
         height: 2000,
         width: 1414,
@@ -53,6 +52,121 @@ export class CertificateService {
           signature: '[Signature Here]',
         },
       },
+      {
+        name: 'certificate of participation in the workshop',
+        background: 'https://i.imgur.com/XmorjTQ.png',
+        height: 2000,
+        width: 1414,
+        atributtes: [
+          {
+            name: 'name',
+            display: 'Name:',
+            font: '80px Arial',
+            x: 680,
+            y: 680,
+          },
+          {
+            name: 'workshop_coach',
+            display: '[workshop_coach]',
+            font: '30px Arial',
+            x: 530,
+            y: 1170,
+          },
+          {
+            name: 'head_of_event',
+            display: '[head_of_event]',
+            font: '30px Arial',
+            x: 1200,
+            y: 1170,
+          },
+        ],
+        demo: {
+          name: '[Full Name Here]',
+          workshop_coach: '[workshop_coach]',
+          head_of_event: '[head_of_event]',
+        },
+      },
+      {
+        name: 'certificate of completion of the course',  
+        background: 'https://i.imgur.com/TVrqssc.png',
+        height: 2000,
+        width: 1414,
+        atributtes: [
+          {
+            name: 'name',
+            display: 'Name:',
+            font: '80px Arial',
+            x: 680,
+            y: 680,
+          }
+        ],
+        demo: {
+          name: '[Full Name Here]'       
+        },
+      },
+      {
+        name: 'certificate of any reward',
+        background: 'https://i.imgur.com/0vQfvFE.png',
+        height: 1414,
+        width: 2000,
+        atributtes: [
+          {
+            name: 'name',
+            display: 'Name:',
+            font: '100px Arial',
+            x: 300,
+            y: 950,
+          }
+        ],
+        demo: {
+          name: '[Full Name Here]'       
+        },
+      },
+      {
+        name: 'certificate of any reward',
+        background: 'https://i.imgur.com/Ygk1ywt.png',
+        height: 1414,
+        width: 2000,
+        atributtes: [
+          {
+            name: 'name',
+            display: 'Name:',
+            font: '100px Arial',
+            x: 300,
+            y: 1100,
+          }
+        ],
+        demo: {
+          name: '[Full Name Here]'       
+        },
+      },
+      {
+        name: 'certificate of company membership',
+        background: 'https://i.imgur.com/TeUtlJt.png',
+        height: 1414,
+        width: 2000,
+        atributtes: [
+          {
+            name: 'name',
+            display: 'Name:',
+            font: '100px Arial',
+            x: 300,
+            y: 1050,
+          },
+          {
+            name: 'date',
+            display: 'date:',
+            font: '40px Arial',
+            x: 230,
+            y: 1580,
+          }
+  
+        ],
+        demo: {
+          name: '[Full Name Here]',
+          date: '[01/01/2024]',       
+        },
+      }
     ];
 
     const userInfo = await this.userInfoRepository.findOne({
