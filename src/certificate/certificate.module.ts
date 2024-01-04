@@ -5,10 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Certificate } from './entities/certificate.entity';
 import { StudentCertificate } from './entities/student-certificate';
 import { CertificateTemplate } from './entities/certificate-template.entity';
+import { UserInfo } from 'src/user/entities/user_info.entity';
+import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
+      UserInfo,
+      OrganizationMember,
       Certificate,
       CertificateTemplate,
       StudentCertificate,

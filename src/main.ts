@@ -1,11 +1,6 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {
-  CONTEXT_PATH,
-  NODE_ENV,
-  PORT,
-  SWAGGER_ENDPOINT,
-} from './app.environment';
+import { CONTEXT_PATH, PORT, SWAGGER_ENDPOINT } from './app.environment';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { SwaggerModule } from '@nestjs/swagger';
 import { swaggerOptions } from './config/config.swagger';

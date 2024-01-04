@@ -13,6 +13,14 @@ export class CertificateTemplate extends AbstractEntity {
   name: string;
 
   @ApiProperty()
+  @Column({ name: 'organization_id' })
+  organizationId: string;
+
+  @ApiProperty()
+  @Column({ name: 'public', default: true })
+  public: boolean;
+
+  @ApiProperty()
   @Column({ name: 'background', nullable: true })
   background: string;
 

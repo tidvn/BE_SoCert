@@ -1,5 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { CertificateService } from './certificate.service';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('certificate')
 export class CertificateController {
@@ -7,10 +9,13 @@ export class CertificateController {
 
   @Get('/init')
   initData() {
-    return this.certificateService.createCertificateTemplate();
+    return this.certificateService.init();
   }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
   @Get('/template')
-  getTemplate() {
-    return this.certificateService.getTemplate();
+  getTemplate(@Req() request: Request) {
+    return this.certificateService.getTemplate(request);
   }
 }

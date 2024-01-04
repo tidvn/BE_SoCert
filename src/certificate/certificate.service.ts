@@ -2,19 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CertificateTemplate } from './entities/certificate-template.entity';
+import { UserInfo } from 'src/user/entities/user_info.entity';
+import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
 
 @Injectable()
 export class CertificateService {
   constructor(
     @InjectRepository(CertificateTemplate)
     private readonly certificateTemplateRepository: Repository<CertificateTemplate>,
+    @InjectRepository(UserInfo)
+    private readonly userInfoRepository: Repository<UserInfo>,
+    @InjectRepository(OrganizationMember)
+    private readonly organizationMemberRepository: Repository<OrganizationMember>,
   ) {}
 
-  async createCertificateTemplate() {
+  async init() {
     const certificateTemplate = [
       {
         name: 'Certificate Template 1',
-        backgroundUrl: 'https://i.imgur.com/rJrxCWK.png',
+
+        background: 'https://i.imgur.com/rJrxCWK.png',
         height: 2000,
         width: 1414,
         atributtes: [
@@ -48,10 +55,22 @@ export class CertificateService {
       },
     ];
 
+    const userInfo = await this.userInfoRepository.findOne({
+      where: {
+        walletAddress: 'HcUY736DPeVuFSj85nufCDXCY8sLfk517DsF6GSH1yvA',
+      },
+    });
+    const organizationMember = await this.organizationMemberRepository.find({
+      where: {
+        userId: userInfo.id,
+      },
+    });
     certificateTemplate.map(async (item) => {
       const template = new CertificateTemplate();
       template.name = item.name;
-      template.background = item.backgroundUrl;
+      template.organizationId = organizationMember[0].organizationId;
+      template.public = true;
+      template.background = item.background;
       template.height = item.height;
       template.width = item.width;
       template.atributtes = item.atributtes;
@@ -60,8 +79,18 @@ export class CertificateService {
     });
   }
 
-  async getTemplate() {
-    const listCertificate = await this.certificateTemplateRepository.find();
+  async getTemplate(request) {
+    const { user } = request;
+    const listCertificate = await this.certificateTemplateRepository.find({
+      where: [
+        {
+          organizationId: user.organizationId,
+        },
+        {
+          public: true,
+        },
+      ],
+    });
     return listCertificate;
   }
 }
