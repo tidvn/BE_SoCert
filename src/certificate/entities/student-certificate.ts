@@ -13,6 +13,10 @@ export class StudentCertificate extends AbstractEntity {
   certificateId: string;
 
   @ApiProperty()
+  @Column({ name: 'canvas ', nullable: true })
+  canvas: Record<string, any>;
+
+  @ApiProperty()
   @Column({ name: 'address', unique: true })
   address: string;
 
@@ -21,6 +25,6 @@ export class StudentCertificate extends AbstractEntity {
   name: string;
 
   @ApiProperty()
-  @Column({ name: 'metadata', nullable: true })
-  metadata: string;
+  @Column({ name: 'metadata', nullable: true, type: 'jsonb' })
+  metadata: Record<string, any>;
 }

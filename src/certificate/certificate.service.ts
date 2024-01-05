@@ -6,10 +6,14 @@ import { UserInfo } from 'src/user/entities/user_info.entity';
 import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
 import { UserState } from 'src/user/entities/user_state.entity';
 import { isNil } from 'lodash';
+import { CreateCertificateCollectionDTO } from './dto/createCertificateCollection';
+import { Certificate } from './entities/certificate.entity';
 
 @Injectable()
 export class CertificateService {
   constructor(
+    @InjectRepository(Certificate)
+    private readonly certificateRepository: Repository<Certificate>,
     @InjectRepository(CertificateTemplate)
     private readonly certificateTemplateRepository: Repository<CertificateTemplate>,
     @InjectRepository(UserInfo)
@@ -205,7 +209,7 @@ export class CertificateService {
         organizationId: organizationId,
       },
     });
-  if (isNil(organizationMember)) {
+    if (isNil(organizationMember)) {
       throw new Error('User is not in this organization');
     }
     const listPrivateCertificate = await this.certificateTemplateRepository.find({
@@ -228,5 +232,32 @@ export class CertificateService {
       privateCertificates: listPrivateCertificate,
       publicCertificates: listPublicCertificate,
     };
+  }
+
+  async createOrganizationCertificate(request, createCertificateCollection: CreateCertificateCollectionDTO) {
+    const { user } = request;
+    const organizationMember = await this.organizationMemberRepository.findOne({
+      where: {
+        userId: user.id,
+        organizationId: createCertificateCollection.organizationId,
+      },
+    });
+    if (isNil(organizationMember)) {
+      throw new Error('User is not in this organization');
+    }
+    const certificateTemplate = await this.certificateTemplateRepository.findOne({
+      where: {
+        id: createCertificateCollection.templateId,
+      },
+    });
+    if (isNil(certificateTemplate)) {
+      throw new Error('Certificate template is not exist');
+    }
+    const certificate = new Certificate();
+    certificate.metadata = createCertificateCollection.metadata;
+    certificate.template = certificateTemplate;
+    certificate.organizationId = createCertificateCollection.organizationId;
+
+    console.log(createCertificateCollection);
   }
 }

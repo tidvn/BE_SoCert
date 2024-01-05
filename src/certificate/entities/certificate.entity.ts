@@ -9,8 +9,8 @@ export class Certificate extends AbstractEntity {
   id: string;
 
   @ApiProperty()
-  @Column({ name: 'template ', nullable: true })
-  template: string;
+  @Column({ name: 'template ', nullable: true ,type: 'jsonb'})
+  template: Record<string, any>;
 
   @ApiProperty()
   @Column({ name: 'organization_id ' })
