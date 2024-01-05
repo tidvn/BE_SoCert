@@ -21,7 +21,7 @@ export class UserService {
     private readonly organizationRepository: Repository<Organization>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) {}
+  ) { }
 
   @Transactional()
   async updateProfile(request, updateProfileDTO: UpdateProfileDTO) {
@@ -94,12 +94,13 @@ export class UserService {
         id: id,
       },
     });
+
     const userState = await this.userStateRepository.findOne({
       where: {
         userId: id,
       },
     });
-
+    delete userInfo.nonce;
     const organizations = await this.organizationRepository
       .createQueryBuilder('organization')
       .innerJoin(

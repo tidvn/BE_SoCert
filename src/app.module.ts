@@ -1,4 +1,3 @@
-import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { LoggerModule, Params } from 'nestjs-pino';
 import { loggerOptions } from 'src/config/config.logger';
@@ -15,7 +14,6 @@ import { CertificateModule } from './certificate/certificate.module';
   imports: [
     dbOrmModuleAsync,
     LoggerModule.forRoot(loggerOptions[NODE_ENV] as Params),
-    CacheModule.register(),
     AuthModule,
     ImageModule,
     OrganizationModule,

@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { CacheModule } from '@nestjs/cache-manager';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from 'src/user/user.module';
 import { UserInfo } from 'src/user/entities/user_info.entity';
@@ -11,7 +10,6 @@ import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
-    CacheModule.register(),
     TypeOrmModule.forFeature([UserInfo]),
     jwtModule,
     PassportModule,

@@ -37,6 +37,10 @@ export class UserInfo extends AbstractEntity {
   emailVerified: boolean;
 
   @ApiProperty()
+  @Column({ name: 'nonce', default: () => 'gen_random_uuid()' })
+  nonce: string;
+
+  @ApiProperty()
   @Column({ name: 'enable', default: false })
   enable: boolean;
 }
