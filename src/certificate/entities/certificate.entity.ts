@@ -25,6 +25,6 @@ export class Certificate extends AbstractEntity {
   metadata: Record<string, any>;
 
   @ApiProperty()
-  @Column({ name: 'author ', nullable: true, type: 'jsonb' })
-  author: Record<string, any>;
+  @Column({ name: 'creators ', nullable: true, type: 'jsonb' })
+  creators: Record<string, any>;
 }

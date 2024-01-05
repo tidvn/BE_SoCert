@@ -22,7 +22,7 @@ export class CertificateService {
     private readonly userStateRepository: Repository<UserState>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) {}
+  ) { }
 
   async init() {
     const certificateTemplate = [
@@ -200,38 +200,6 @@ export class CertificateService {
     });
   }
 
-  async getCertificateTemplate(request, organizationId) {
-    const { user } = request;
-    const organizationMember = await this.organizationMemberRepository.findOne({
-      where: {
-        userId: user.id,
-        organizationId: organizationId,
-      },
-    });
-    if (isNil(organizationMember)) {
-      throw new Error('User is not in this organization');
-    }
-    const listPrivateCertificate =
-      await this.certificateTemplateRepository.find({
-        where: {
-          organizationId: organizationId,
-          public: false,
-        },
-      });
-    const listPublicCertificate = await this.certificateTemplateRepository.find(
-      {
-        where: {
-          public: true,
-          // organizationId: Not(Equal(organizationId)),
-        },
-      },
-    );
-    return {
-      privateCertificates: listPrivateCertificate,
-      publicCertificates: listPublicCertificate,
-    };
-  }
-
   async createOrganizationCertificate(
     request,
     createCertificateCollection: CreateCertificateCollectionDTO,
@@ -260,8 +228,31 @@ export class CertificateService {
     certificate.metadata = { ...certMetadata, certificate: 'socert' };
     certificate.template = certificateTemplate;
     certificate.organizationId = createCertificateCollection.organizationId;
+    certificate.creators = certMetadata.creators;
     await this.certificateRepository.save(certificate);
     const metadata_path = `/metadata/collection/${certificate.id}.json`;
-    return { metadata_path: metadata_path };
+    return { certificateId: certificate.id, metadata_path: metadata_path };
+  }
+
+  async updateCertificateAddress(certificateId, nftAddress) {
+    const certificate = await this.certificateRepository.findOne({
+      where: {
+        id: certificateId,
+      },
+    });
+    if (isNil(certificate)) {
+      throw new Error('Certificate is not exist');
+    }
+    certificate.address = nftAddress;
+    await this.certificateRepository.save(certificate);
+  }
+
+  async getOrganizationCertificate(organizationId: string) {
+    
+   const certificates = await this.certificateRepository.find({
+      where: {
+        organizationId: organizationId,
+      },
+    });
   }
 }
