@@ -4,7 +4,7 @@ import { Response } from 'express';
 
 @Controller('image')
 export class ImageController {
-  constructor(private readonly imageService: ImageService) { }
+  constructor(private readonly imageService: ImageService) {}
 
   @Get('/template/:templateId.png')
   async getDemoCertificate(
@@ -18,9 +18,7 @@ export class ImageController {
   }
 
   @Get('/demo')
-  async getDemo(
-    @Res() res: Response,
-  ): Promise<any> {
+  async getDemo(@Res() res: Response): Promise<any> {
     res.setHeader('Content-Type', 'image/png');
     res.send(await this.imageService.getDemo());
   }

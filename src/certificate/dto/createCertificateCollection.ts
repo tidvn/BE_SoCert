@@ -13,7 +13,7 @@ export class CreateCertificateCollectionDTO {
   @ApiProperty()
   @IsNotEmpty()
   organizationId: string;
-};
+}
 
 interface AttributeDto {
   trait_type: string;
@@ -26,5 +26,5 @@ interface MetadataDto {
   image: string;
   attributes: AttributeDto[];
   creators: string[];
-  certificate: "socert";
+  certificate: 'socert';
 }

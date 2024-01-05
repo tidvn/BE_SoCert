@@ -21,7 +21,7 @@ export class UserService {
     private readonly organizationRepository: Repository<Organization>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) { }
+  ) {}
 
   @Transactional()
   async updateProfile(request, updateProfileDTO: UpdateProfileDTO) {

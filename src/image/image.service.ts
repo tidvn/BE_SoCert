@@ -9,7 +9,7 @@ export class ImageService {
   constructor(
     @InjectRepository(CertificateTemplate)
     private readonly certificateTemplateRepository: Repository<CertificateTemplate>,
-  ) { }
+  ) {}
 
   async getDemoCertificate(id: string) {
     const template = await this.certificateTemplateRepository.findOne({
@@ -20,9 +20,7 @@ export class ImageService {
     return await this.drawCanvas(template, template.demo);
   }
 
-
   async getDemo() {
-
     const templateData = {
       background: 'https://i.imgur.com/TeUtlJt.png',
       height: 1414,
@@ -41,14 +39,13 @@ export class ImageService {
           font: '40px Arial',
           x: 230,
           y: 1580,
-        }
-
+        },
       ],
       demo: {
         name: '[Full Name Here]',
-        date: '[01/01/2024]',       
+        date: '[01/01/2024]',
       },
-    }
+    };
 
     const template = {
       ...templateData,
@@ -57,8 +54,8 @@ export class ImageService {
       organizationId: '',
       public: true,
       createdAt: undefined,
-      updatedAt: undefined
-    }
+      updatedAt: undefined,
+    };
     return await this.drawCanvas(template, template.demo);
   }
 

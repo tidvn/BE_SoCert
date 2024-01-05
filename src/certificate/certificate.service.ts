@@ -22,7 +22,7 @@ export class CertificateService {
     private readonly userStateRepository: Repository<UserState>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) { }
+  ) {}
 
   async init() {
     const certificateTemplate = [
@@ -106,10 +106,10 @@ export class CertificateService {
             font: '80px Arial',
             x: 680,
             y: 680,
-          }
+          },
         ],
         demo: {
-          name: '[Full Name Here]'
+          name: '[Full Name Here]',
         },
       },
       {
@@ -124,10 +124,10 @@ export class CertificateService {
             font: '100px Arial',
             x: 300,
             y: 950,
-          }
+          },
         ],
         demo: {
-          name: '[Full Name Here]'
+          name: '[Full Name Here]',
         },
       },
       {
@@ -142,10 +142,10 @@ export class CertificateService {
             font: '100px Arial',
             x: 300,
             y: 1100,
-          }
+          },
         ],
         demo: {
-          name: '[Full Name Here]'
+          name: '[Full Name Here]',
         },
       },
       {
@@ -167,14 +167,13 @@ export class CertificateService {
             font: '40px Arial',
             x: 230,
             y: 1580,
-          }
-
+          },
         ],
         demo: {
           name: '[Full Name Here]',
           date: '[01/01/2024]',
         },
-      }
+      },
     ];
 
     const userInfo = await this.userInfoRepository.findOne({
@@ -212,29 +211,31 @@ export class CertificateService {
     if (isNil(organizationMember)) {
       throw new Error('User is not in this organization');
     }
-    const listPrivateCertificate = await this.certificateTemplateRepository.find({
-      where:
+    const listPrivateCertificate =
+      await this.certificateTemplateRepository.find({
+        where: {
+          organizationId: organizationId,
+          public: false,
+        },
+      });
+    const listPublicCertificate = await this.certificateTemplateRepository.find(
       {
-        organizationId: organizationId,
-        public: false,
+        where: {
+          public: true,
+          // organizationId: Not(Equal(organizationId)),
+        },
       },
-
-    });
-    const listPublicCertificate = await this.certificateTemplateRepository.find({
-      where:
-      {
-        public: true,
-        // organizationId: Not(Equal(organizationId)),
-      },
-
-    });
+    );
     return {
       privateCertificates: listPrivateCertificate,
       publicCertificates: listPublicCertificate,
     };
   }
 
-  async createOrganizationCertificate(request, createCertificateCollection: CreateCertificateCollectionDTO) {
+  async createOrganizationCertificate(
+    request,
+    createCertificateCollection: CreateCertificateCollectionDTO,
+  ) {
     const { user } = request;
     const organizationMember = await this.organizationMemberRepository.findOne({
       where: {
@@ -245,11 +246,12 @@ export class CertificateService {
     if (isNil(organizationMember)) {
       throw new Error('User is not in this organization');
     }
-    const certificateTemplate = await this.certificateTemplateRepository.findOne({
-      where: {
-        id: createCertificateCollection.templateId,
-      },
-    });
+    const certificateTemplate =
+      await this.certificateTemplateRepository.findOne({
+        where: {
+          id: createCertificateCollection.templateId,
+        },
+      });
     if (isNil(certificateTemplate)) {
       throw new Error('Certificate template is not exist');
     }
