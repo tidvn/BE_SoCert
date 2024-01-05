@@ -19,6 +19,10 @@ interface AttributeDto {
   trait_type: string;
   value: string;
 }
+interface AttributeDto {
+  trait_type: string;
+  value: string;
+}
 
 interface MetadataDto {
   name: string;

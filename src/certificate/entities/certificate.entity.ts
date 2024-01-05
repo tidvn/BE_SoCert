@@ -21,14 +21,6 @@ export class Certificate extends AbstractEntity {
   address: string;
 
   @ApiProperty()
-  @Column({ name: 'name', nullable: true })
-  name: string;
-
-  @ApiProperty()
-  @Column({ name: 'image', nullable: true })
-  image: string;
-
-  @ApiProperty()
   @Column({ name: 'metadata', nullable: true, type: 'jsonb' })
   metadata: Record<string, any>;
 

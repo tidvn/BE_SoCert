@@ -36,7 +36,7 @@ export class CertificateController {
   }
 
   @ApiBearerAuth()
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('/collection/create')
   createOrganizationCertificate(
     @Req() request: Request,

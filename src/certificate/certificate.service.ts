@@ -22,7 +22,7 @@ export class CertificateService {
     private readonly userStateRepository: Repository<UserState>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) {}
+  ) { }
 
   async init() {
     const certificateTemplate = [
@@ -259,7 +259,6 @@ export class CertificateService {
     certificate.metadata = createCertificateCollection.metadata;
     certificate.template = certificateTemplate;
     certificate.organizationId = createCertificateCollection.organizationId;
-
-    console.log(createCertificateCollection);
+    await this.certificateRepository.save(certificate);
   }
 }
