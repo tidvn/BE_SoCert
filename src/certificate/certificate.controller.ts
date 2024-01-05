@@ -10,7 +10,6 @@ import {
 import { CertificateService } from './certificate.service';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { Organization } from 'src/organization/entities/organization.entity';
 import { CreateCertificateCollectionDTO } from './dto/createCertificateCollection';
 
 @Controller('certificate')

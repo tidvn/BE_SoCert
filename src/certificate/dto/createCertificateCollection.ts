@@ -30,5 +30,6 @@ interface MetadataDto {
   image: string;
   attributes: AttributeDto[];
   creators: string[];
-  certificate: 'socert';
+  properties: Record<string, any>;
+  certificate: string;
 }

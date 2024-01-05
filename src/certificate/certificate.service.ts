@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Equal, Not, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CertificateTemplate } from './entities/certificate-template.entity';
 import { UserInfo } from 'src/user/entities/user_info.entity';
 import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
@@ -22,7 +22,7 @@ export class CertificateService {
     private readonly userStateRepository: Repository<UserState>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) { }
+  ) {}
 
   async init() {
     const certificateTemplate = [
@@ -255,10 +255,13 @@ export class CertificateService {
     if (isNil(certificateTemplate)) {
       throw new Error('Certificate template is not exist');
     }
+    const certMetadata = createCertificateCollection.metadata;
     const certificate = new Certificate();
-    certificate.metadata = createCertificateCollection.metadata;
+    certificate.metadata = { ...certMetadata, certificate: 'socert' };
     certificate.template = certificateTemplate;
     certificate.organizationId = createCertificateCollection.organizationId;
     await this.certificateRepository.save(certificate);
+    const metadata_path = `/metadata/collection/${certificate.id}.json`;
+    return { metadata_path: metadata_path };
   }
 }
