@@ -17,7 +17,7 @@ export class StudentCertificate extends AbstractEntity {
   canvas: Record<string, any>;
 
   @ApiProperty()
-  @Column({ name: 'address', unique: true })
+  @Column({ name: 'address', nullable: true })
   address: string;
 
   @ApiProperty()

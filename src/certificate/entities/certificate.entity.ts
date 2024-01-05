@@ -17,7 +17,7 @@ export class Certificate extends AbstractEntity {
   organizationId: string;
 
   @ApiProperty()
-  @Column({ name: 'address', unique: true })
+  @Column({ name: 'address', nullable: true })
   address: string;
 
   @ApiProperty()
