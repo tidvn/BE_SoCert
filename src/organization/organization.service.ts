@@ -4,6 +4,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { OrganizationMember } from './entities/organization-member.entity';
 import { UserInfo } from 'src/user/entities/user_info.entity';
+import { CertificateTemplate } from 'src/certificate/entities/certificate-template.entity';
+import { isNil } from 'lodash';
+import { Certificate } from 'src/certificate/entities/certificate.entity';
 
 @Injectable()
 export class OrganizationService {
@@ -14,7 +17,11 @@ export class OrganizationService {
     private readonly organizationRepository: Repository<Organization>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) {}
+    @InjectRepository(CertificateTemplate)
+    private readonly certificateTemplateRepository: Repository<CertificateTemplate>,
+    @InjectRepository(Certificate)
+    private readonly certificateRepository: Repository<Certificate>,
+  ) { }
 
   async initData() {
     const companyData = [
@@ -82,5 +89,56 @@ export class OrganizationService {
       await this.organizationMemberRepository.save(organizationMember);
     });
     return { message: 'Success' };
+  }
+
+  async getCertificateTemplate(request, organizationId) {
+    const { user } = request;
+    const organizationMember = await this.organizationMemberRepository.findOne({
+      where: {
+        userId: user.id,
+        organizationId: organizationId,
+      },
+    });
+    if (isNil(organizationMember)) {
+      throw new Error('User is not in this organization');
+    }
+    const listPrivateCertificate =
+      await this.certificateTemplateRepository.find({
+        where: {
+          organizationId: organizationId,
+          public: false,
+        },
+      });
+    const listPublicCertificate = await this.certificateTemplateRepository.find(
+      {
+        where: {
+          public: true,
+          // organizationId: Not(Equal(organizationId)),
+        },
+      },
+    );
+    return {
+      privateCertificates: listPrivateCertificate,
+      publicCertificates: listPublicCertificate,
+    };
+  }
+
+  async getCertificate(request, organizationId) {
+    const { user } = request;
+    const organizationMember = await this.organizationMemberRepository.findOne({
+      where: {
+        userId: user.id,
+        organizationId: organizationId,
+      },
+    });
+    if (isNil(organizationMember)) {
+      throw new Error('User is not in this organization');
+    }
+    const listCertificate = await this.certificateRepository.find({
+      where: {
+        organizationId: organizationId,
+      },
+    });
+    return listCertificate
   }
 }
