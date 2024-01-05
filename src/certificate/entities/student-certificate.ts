@@ -13,7 +13,7 @@ export class StudentCertificate extends AbstractEntity {
   certificateId: string;
 
   @ApiProperty()
-  @Column({ name: 'canvas ', nullable: true })
+  @Column({ name: 'canvas ', nullable: true, type: 'jsonb' })
   canvas: Record<string, any>;
 
   @ApiProperty()
