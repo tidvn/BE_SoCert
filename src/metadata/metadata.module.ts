@@ -7,7 +7,7 @@ import { UserState } from 'src/user/entities/user_state.entity';
 import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
 import { Certificate } from 'src/certificate/entities/certificate.entity';
 import { CertificateTemplate } from 'src/certificate/entities/certificate-template.entity';
-import { StudentCertificate } from 'src/certificate/entities/student-certificate';
+import { CertificateMember } from 'src/certificate/entities/certificate-member.entity';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { StudentCertificate } from 'src/certificate/entities/student-certificate
       OrganizationMember,
       Certificate,
       CertificateTemplate,
-      StudentCertificate,
+      CertificateMember,
     ]),
   ],
   controllers: [MetadataController],

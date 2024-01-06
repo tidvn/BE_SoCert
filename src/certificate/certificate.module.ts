@@ -3,11 +3,11 @@ import { CertificateService } from './certificate.service';
 import { CertificateController } from './certificate.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Certificate } from './entities/certificate.entity';
-import { StudentCertificate } from './entities/student-certificate';
 import { CertificateTemplate } from './entities/certificate-template.entity';
 import { UserInfo } from 'src/user/entities/user_info.entity';
 import { OrganizationMember } from 'src/organization/entities/organization-member.entity';
 import { UserState } from 'src/user/entities/user_state.entity';
+import { CertificateMember } from './entities/certificate-member.entity';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { UserState } from 'src/user/entities/user_state.entity';
       OrganizationMember,
       Certificate,
       CertificateTemplate,
-      StudentCertificate,
+      CertificateMember,
     ]),
   ],
   controllers: [CertificateController],

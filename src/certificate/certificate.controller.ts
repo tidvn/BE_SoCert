@@ -66,4 +66,15 @@ export class CertificateController {
   ) {
     return this.certificateService.getCertificateByAddress(request, certificateAddress);
   }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Post('/:certificateAddress/student')
+  createCertificateMember(
+    @Req() request: Request,
+    @Param('certificateAddress') certificateAddress: string,
+    @Body() members: any,
+  ) {
+    return this.certificateService.createCertificateMember(request, certificateAddress,members);
+  }
 }

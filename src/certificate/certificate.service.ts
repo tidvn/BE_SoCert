@@ -8,6 +8,7 @@ import { UserState } from 'src/user/entities/user_state.entity';
 import { isNil } from 'lodash';
 import { CreateCertificateCollectionDTO } from './dto/createCertificateCollection';
 import { Certificate } from './entities/certificate.entity';
+import { CertificateMember } from './entities/certificate-member.entity';
 
 @Injectable()
 export class CertificateService {
@@ -22,7 +23,9 @@ export class CertificateService {
     private readonly userStateRepository: Repository<UserState>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) {}
+    @InjectRepository(CertificateMember)
+    private readonly certificateMemberRepository: Repository<CertificateMember>,
+  ) { }
 
   async init() {
     const certificateTemplate = [
@@ -268,6 +271,7 @@ export class CertificateService {
     }
     return certificate;
   }
+
   async getCertificateByAddress(request, certificateAddress: string) {
     const { user } = request;
     const certificate = await this.certificateRepository.findOne({
@@ -288,5 +292,55 @@ export class CertificateService {
       throw new Error('User is not in this organization');
     }
     return certificate;
+  }
+
+  async createCertificateMember(request, certificateAddress, members) {
+    const { user } = request;
+    const certificate = await this.certificateRepository.findOne({
+      where: {
+        address: certificateAddress,
+      },
+    });
+    if (isNil(certificate)) {
+      throw new Error('Certificate is not exist');
+    }
+    const organizationMember = await this.organizationMemberRepository.findOne({
+      where: {
+        userId: user.id,
+        organizationId: certificate.organizationId,
+      },
+    });
+    if (isNil(organizationMember)) {
+      throw new Error('User is not in this organization');
+    }
+    const certificateMembers = [];
+    members.map(async (member) => {
+      const certificateMember = new CertificateMember();
+      certificateMember.certificateId = certificate.id;
+      certificateMember.metadata = member;
+      certificateMember.name= `${certificate.metadata.name}-${member.name}`;
+      certificateMember.canvas=certificate.template;
+      certificateMembers.push(certificateMember);
+    });
+    await this.certificateMemberRepository.save(certificateMembers);
+
+    // const certificate = await this.certificateRepository.findOne({
+    //   where: {
+    //     address: certificateAddress,
+    //   },
+    // });
+    // if (isNil(certificate)) {
+    //   throw new Error('Certificate is not exist');
+    // }
+    // const organizationMember = await this.organizationMemberRepository.findOne({
+    //   where: {
+    //     userId: user.id,
+    //     organizationId: certificate.organizationId,
+    //   },
+    // });
+    // if (isNil(organizationMember)) {
+    //   throw new Error('User is not in this organization');
+    // }
+    // return certificate;
   }
 }

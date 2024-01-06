@@ -2,8 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { AbstractEntity } from 'src/common/common.entity';
 import { Column, Entity } from 'typeorm';
 
-@Entity({ name: 'student_certificate' })
-export class StudentCertificate extends AbstractEntity {
+@Entity({ name: 'certificate_member' })
+export class CertificateMember extends AbstractEntity {
   @ApiProperty()
   @Column({ name: 'id', default: () => 'gen_random_uuid()', primary: true })
   id: string;

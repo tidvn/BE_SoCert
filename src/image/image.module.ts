@@ -4,14 +4,14 @@ import { ImageController } from './image.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Certificate } from 'src/certificate/entities/certificate.entity';
 import { CertificateTemplate } from 'src/certificate/entities/certificate-template.entity';
-import { StudentCertificate } from 'src/certificate/entities/student-certificate';
+import { CertificateMember } from 'src/certificate/entities/certificate-member.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Certificate,
       CertificateTemplate,
-      StudentCertificate,
+      CertificateMember,
     ]),
   ],
   controllers: [ImageController],
