@@ -21,7 +21,7 @@ export class OrganizationService {
     private readonly certificateTemplateRepository: Repository<CertificateTemplate>,
     @InjectRepository(Certificate)
     private readonly certificateRepository: Repository<Certificate>,
-  ) { }
+  ) {}
 
   async initData() {
     const companyData = [
@@ -139,6 +139,6 @@ export class OrganizationService {
         organizationId: organizationId,
       },
     });
-    return listCertificate
+    return listCertificate;
   }
 }
