@@ -268,4 +268,25 @@ export class CertificateService {
     }
     return certificate;
   }
+  async getCertificateByAddress(request, certificateAddress: string) {
+    const { user } = request;
+    const certificate = await this.certificateRepository.findOne({
+      where: {
+        address: certificateAddress,
+      },
+    });
+    if (isNil(certificate)) {
+      throw new Error('Certificate is not exist');
+    }
+    const organizationMember = await this.organizationMemberRepository.findOne({
+      where: {
+        userId: user.id,
+        organizationId: certificate.organizationId,
+      },
+    });
+    if (isNil(organizationMember)) {
+      throw new Error('User is not in this organization');
+    }
+    return certificate;
+  }
 }

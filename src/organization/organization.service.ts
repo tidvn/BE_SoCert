@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Organization } from './entities/organization.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { OrganizationMember } from './entities/organization-member.entity';
 import { UserInfo } from 'src/user/entities/user_info.entity';
 import { CertificateTemplate } from 'src/certificate/entities/certificate-template.entity';
@@ -137,6 +137,7 @@ export class OrganizationService {
     const listCertificate = await this.certificateRepository.find({
       where: {
         organizationId: organizationId,
+        address: Not(IsNull()),
       },
     });
     return listCertificate;

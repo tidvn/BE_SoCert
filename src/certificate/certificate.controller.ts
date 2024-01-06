@@ -14,7 +14,7 @@ import { CreateCertificateCollectionDTO } from './dto/createCertificateCollectio
 
 @Controller('certificate')
 export class CertificateController {
-  constructor(private readonly certificateService: CertificateService) {}
+  constructor(private readonly certificateService: CertificateService) { }
 
   @Get('/init')
   initData() {
@@ -55,5 +55,15 @@ export class CertificateController {
     @Param('certificateId') certificateId: string,
   ) {
     return this.certificateService.getCertificateById(request, certificateId);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('/:certificateAddress')
+  getCertificateByAddress(
+    @Req() request: Request,
+    @Param('certificateAddress') certificateAddress: string,
+  ) {
+    return this.certificateService.getCertificateByAddress(request, certificateAddress);
   }
 }
