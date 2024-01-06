@@ -11,4 +11,9 @@ export class MetadataController {
     const metadata = await this.metadataService.getColectionMetadata(id);
     res.send(metadata);
   }
+  @Get('/certificate/:id.json')
+  async getCertificateNFTMetadata(@Param('id') id: string, @Res() res: Response) {
+    const metadata = await this.metadataService.getCertificateNFTMetadata(id);
+    res.send(metadata);
+  }
 }

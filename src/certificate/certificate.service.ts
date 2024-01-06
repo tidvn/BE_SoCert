@@ -9,6 +9,7 @@ import { isNil } from 'lodash';
 import { CreateCertificateCollectionDTO } from './dto/createCertificateCollection';
 import { Certificate } from './entities/certificate.entity';
 import { CertificateMember } from './entities/certificate-member.entity';
+import { SITE_URL } from 'src/app.environment';
 
 @Injectable()
 export class CertificateService {
@@ -314,12 +315,31 @@ export class CertificateService {
       throw new Error('User is not in this organization');
     }
     const certificateMembers = [];
+
+    const collection = await this.certificateRepository.findOne({ where: { address: members[0].collectionAddress } });
+
+
     members.map(async (member) => {
       const certificateMember = new CertificateMember();
       certificateMember.collectionAddress = certificate.address;
-      certificateMember.metadata = member;
+      
       certificateMember.name = `${certificate.metadata.name}-${member.name}`;
       certificateMember.canvas = certificate.template;
+      const creators = collection.metadata.creators.map((creator) => ({ address: creator, share: 100 }));
+      const { wallet_address, ...data } = member;
+      const image = `${SITE_URL}/image/certificate/${certificateMember.id}.png`;
+      const metadata = {
+        ...data, symbol: 'SOCERT', image: image,
+        seller_fee_basis_points: 0,
+        properties: {
+          creators: creators,
+          files: [{
+            uri: image,
+            type: 'image/png'
+          }]
+        }
+      };
+      certificateMember.metadata = metadata;
       certificateMembers.push(certificateMember);
     });
     await this.certificateMemberRepository.save(certificateMembers);

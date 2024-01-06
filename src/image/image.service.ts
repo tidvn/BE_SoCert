@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { createCanvas, loadImage } from 'canvas';
+import { CertificateMember } from 'src/certificate/entities/certificate-member.entity';
 import { CertificateTemplate } from 'src/certificate/entities/certificate-template.entity';
 import { Repository } from 'typeorm';
 
@@ -9,6 +10,8 @@ export class ImageService {
   constructor(
     @InjectRepository(CertificateTemplate)
     private readonly certificateTemplateRepository: Repository<CertificateTemplate>,
+    @InjectRepository(CertificateMember)
+    private readonly certificateMemberRepository: Repository<CertificateMember>,
   ) {}
 
   async getDemoCertificate(id: string) {
@@ -18,6 +21,15 @@ export class ImageService {
       },
     });
     return await this.drawCanvas(template, template.demo);
+  }
+
+  async getUserCertificateImage(id: string) {
+    const certificateMember = await this.certificateMemberRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+    return await this.drawCanvas(certificateMember.canvas, certificateMember.metadata);
   }
 
   async getDemo() {
@@ -59,7 +71,7 @@ export class ImageService {
     return await this.drawCanvas(template, template.demo);
   }
 
-  private async drawCanvas(template: CertificateTemplate, data: any) {
+  private async drawCanvas(template: any, data: any) {
     const canvas = createCanvas(template.height, template.width);
     const ctx = canvas.getContext('2d');
     ctx.drawImage(

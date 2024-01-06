@@ -86,4 +86,12 @@ export class CertificateController {
   ) {
     return this.certificateService.getCertificateMember(certificateAddress);
   }
+
+  // @ApiBearerAuth()
+  // @Get('/:certificateAddress/member')
+  // createTransactionMint(
+  //   @Param('certificateAddress') certificateAddress: string,
+  // ) {
+  //   return this.certificateService.createTransactionMint(certificateAddress);
+  // }
 }
