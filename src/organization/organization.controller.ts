@@ -5,7 +5,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('organization')
 export class OrganizationController {
-  constructor(private readonly organizationService: OrganizationService) { }
+  constructor(private readonly organizationService: OrganizationService) {}
 
   // @ApiBearerAuth()
   // @UseGuards(JwtAuthGuard)
@@ -34,11 +34,6 @@ export class OrganizationController {
     @Req() request: Request,
     @Param('organizationId') organizationId: string,
   ) {
-    return this.organizationService.getCertificate(
-      request,
-      organizationId,
-    );
+    return this.organizationService.getCertificate(request, organizationId);
   }
-
-
 }

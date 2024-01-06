@@ -14,7 +14,7 @@ import { CreateCertificateCollectionDTO } from './dto/createCertificateCollectio
 
 @Controller('certificate')
 export class CertificateController {
-  constructor(private readonly certificateService: CertificateService) { }
+  constructor(private readonly certificateService: CertificateService) {}
 
   @Get('/init')
   initData() {
@@ -39,9 +39,21 @@ export class CertificateController {
   @Post('/collection/:certificateId')
   updateCertificateAddress(
     @Param('certificateId') certificateId: string,
-    @Body() body: { nftAddress: string }
+    @Body() body: { nftAddress: string },
   ) {
-    return this.certificateService.updateCertificateAddress(certificateId, body.nftAddress);
+    return this.certificateService.updateCertificateAddress(
+      certificateId,
+      body.nftAddress,
+    );
   }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard)
+  @Get('/id/:certificateId')
+  getCertificateById(
+    @Req() request: Request,
+    @Param('certificateId') certificateId: string,
+  ) {
+    return this.certificateService.getCertificateById(request, certificateId);
+  }
 }

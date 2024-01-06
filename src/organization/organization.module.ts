@@ -11,11 +11,16 @@ import { StudentCertificate } from 'src/certificate/entities/student-certificate
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Organization, OrganizationMember, UserInfo, Certificate,
+    TypeOrmModule.forFeature([
+      Organization,
+      OrganizationMember,
+      UserInfo,
+      Certificate,
       CertificateTemplate,
-      StudentCertificate,]),
+      StudentCertificate,
+    ]),
   ],
   controllers: [OrganizationController],
   providers: [OrganizationService],
 })
-export class OrganizationModule { }
+export class OrganizationModule {}

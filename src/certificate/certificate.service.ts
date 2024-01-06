@@ -22,7 +22,7 @@ export class CertificateService {
     private readonly userStateRepository: Repository<UserState>,
     @InjectRepository(OrganizationMember)
     private readonly organizationMemberRepository: Repository<OrganizationMember>,
-  ) { }
+  ) {}
 
   async init() {
     const certificateTemplate = [
@@ -247,12 +247,25 @@ export class CertificateService {
     await this.certificateRepository.save(certificate);
   }
 
-  async getOrganizationCertificate(organizationId: string) {
-    
-   const certificates = await this.certificateRepository.find({
+  async getCertificateById(request, certificateId: string) {
+    const { user } = request;
+    const certificate = await this.certificateRepository.findOne({
       where: {
-        organizationId: organizationId,
+        id: certificateId,
       },
     });
+    if (isNil(certificate)) {
+      throw new Error('Certificate is not exist');
+    }
+    const organizationMember = await this.organizationMemberRepository.findOne({
+      where: {
+        userId: user.id,
+        organizationId: certificate.organizationId,
+      },
+    });
+    if (isNil(organizationMember)) {
+      throw new Error('User is not in this organization');
+    }
+    return certificate;
   }
 }
