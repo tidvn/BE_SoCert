@@ -69,7 +69,7 @@ export class CertificateController {
 
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
-  @Post('/:certificateAddress/student')
+  @Post('/:certificateAddress/member')
   createCertificateMember(
     @Req() request: Request,
     @Param('certificateAddress') certificateAddress: string,
@@ -80,7 +80,7 @@ export class CertificateController {
 
 
   @ApiBearerAuth()
-  @Get('/:certificateAddress/student')
+  @Get('/:certificateAddress/member')
   getCertificateMember(
     @Param('certificateAddress') certificateAddress: string,
   ) {
