@@ -2,15 +2,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { AbstractEntity } from 'src/common/common.entity';
 import { Column, Entity } from 'typeorm';
 
-@Entity({ name: 'certificate_member' })
+@Entity({ name: 'certificate' })
 export class CertificateMember extends AbstractEntity {
   @ApiProperty()
   @Column({ name: 'id', default: () => 'gen_random_uuid()', primary: true })
   id: string;
 
   @ApiProperty()
-  @Column({ name: 'certificate_id' })
-  certificateId: string;
+  @Column({ name: 'collection_address' })
+  collectionAddress: string;
 
   @ApiProperty()
   @Column({ name: 'canvas ', nullable: true, type: 'jsonb' })

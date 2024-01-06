@@ -75,6 +75,15 @@ export class CertificateController {
     @Param('certificateAddress') certificateAddress: string,
     @Body() members: any,
   ) {
-    return this.certificateService.createCertificateMember(request, certificateAddress,members);
+    return this.certificateService.createCertificateMember(request, certificateAddress, members);
+  }
+
+
+  @ApiBearerAuth()
+  @Get('/:certificateAddress/student')
+  getCertificateMember(
+    @Param('certificateAddress') certificateAddress: string,
+  ) {
+    return this.certificateService.getCertificateMember(certificateAddress);
   }
 }

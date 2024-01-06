@@ -316,10 +316,10 @@ export class CertificateService {
     const certificateMembers = [];
     members.map(async (member) => {
       const certificateMember = new CertificateMember();
-      certificateMember.certificateId = certificate.id;
+      certificateMember.collectionAddress = certificate.address;
       certificateMember.metadata = member;
-      certificateMember.name= `${certificate.metadata.name}-${member.name}`;
-      certificateMember.canvas=certificate.template;
+      certificateMember.name = `${certificate.metadata.name}-${member.name}`;
+      certificateMember.canvas = certificate.template;
       certificateMembers.push(certificateMember);
     });
     await this.certificateMemberRepository.save(certificateMembers);
@@ -342,5 +342,13 @@ export class CertificateService {
     //   throw new Error('User is not in this organization');
     // }
     // return certificate;
+  }
+
+  async getCertificateMember(certificateAddress: string) {
+    return await this.certificateMemberRepository.find({
+      where: {
+        collectionAddress: certificateAddress,
+      },
+    });
   }
 }
