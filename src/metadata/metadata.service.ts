@@ -21,7 +21,10 @@ export class MetadataService {
   async getCertificateNFTMetadata(id: string) {
     const cert = await this.certificateMemberRepository.findOne({ where: { id } });
 
-    return cert.metadata;
+      const metadata =  cert.metadata.properties.creators.filter(creator => creator.address === null || creator.address === "");
+
+    return metadata;
+    
     // const { wallet_address, ...metadata } = cert.metadata;
     // const creators = collection.metadata.creators.map((creator) => ({ address: creator, share: 100 }));
     //   return {

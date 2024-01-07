@@ -209,7 +209,7 @@ export class CertificateService {
       background: 'https://i.imgur.com/Xe0zOFr.png',
       height: 1792,
       width: 1296,
-      fillStyle:"white",
+      fillStyle: "white",
       atributtes: [
         {
           name: 'name',
@@ -225,14 +225,14 @@ export class CertificateService {
           x: 390,
           y: 1070,
         },
-        
+
         {
           name: 'year',
           display: 'year:',
           font: '40px Arial',
           x: 490,
           y: 1070,
-        },        
+        },
         {
           name: 'rank',
           display: 'rank:',
@@ -253,8 +253,8 @@ export class CertificateService {
         name: '[Full_Name]',
         month: '[Month]',
         year: '[Year]',
-        rank:"[Rank]",
-        course:"[Course]"
+        rank: "[Rank]",
+        course: "[Course]"
       },
     };
 
@@ -269,18 +269,18 @@ export class CertificateService {
         userId: userInfo.id,
       },
     });
-      const template = new CertificateTemplate();
-      template.name = templateData.name;
-      template.organizationId = organizationMember[0].organizationId;
-      template.public = true;
-      template.fillStyle = templateData.fillStyle;
-      template.background = templateData.background;
-      template.height = templateData.height;
-      template.width = templateData.width;
-      template.atributtes = templateData.atributtes;
-      template.demo = templateData.demo;
-      await this.certificateTemplateRepository.save(template);
-    
+    const template = new CertificateTemplate();
+    template.name = templateData.name;
+    template.organizationId = organizationMember[0].organizationId;
+    template.public = true;
+    template.fillStyle = templateData.fillStyle;
+    template.background = templateData.background;
+    template.height = templateData.height;
+    template.width = templateData.width;
+    template.atributtes = templateData.atributtes;
+    template.demo = templateData.demo;
+    await this.certificateTemplateRepository.save(template);
+
   }
 
   async createOrganizationCertificate(
@@ -401,10 +401,10 @@ export class CertificateService {
     members.map(async (member) => {
       const certificateMember = new CertificateMember();
       certificateMember.collectionAddress = certificate.address;
-      
+
       certificateMember.name = `${certificate.metadata.name}-${member.name}`;
       certificateMember.canvas = certificate.template;
-      const creators = collection.metadata.creators.map((creator) => ({ address: creator, share: 100 }));
+      const creators = collection.metadata.creators.map((creator) => { if(!isNil(creator)) return ({ address: creator, share: 100 }) });
       const { wallet_address, ...data } = member;
       const image = `${SITE_URL}/image/certificate/${certificateMember.id}.png`;
       const metadata = {
