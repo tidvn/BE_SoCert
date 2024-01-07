@@ -203,6 +203,86 @@ export class CertificateService {
       await this.certificateTemplateRepository.save(template);
     });
   }
+  async init2() {
+    const templateData = {
+      name: 'certificate of socert course',
+      background: 'https://i.imgur.com/QCXe7x4.png',
+      height: 1792,
+      width: 1296,
+      fillStyle:"white",
+      atributtes: [
+        {
+          name: 'name',
+          display: 'Name:',
+          font: '50px Arial',
+          x: 900,
+          y: 750,
+        },
+        {
+          name: 'month',
+          display: 'month:',
+          font: '40px Arial',
+          x: 390,
+          y: 1070,
+        },
+        
+        {
+          name: 'year',
+          display: 'year:',
+          font: '40px Arial',
+          x: 490,
+          y: 1070,
+        },        
+        {
+          name: 'rank',
+          display: 'rank:',
+          font: '40px Arial',
+          x: 910,
+          y: 870,
+        },
+        {
+          name: 'course',
+          display: 'course:',
+          font: '40px Arial',
+          x: 1080,
+          y: 815,
+        },
+      ],
+
+      demo: {
+        name: '[Full_Name]',
+        month: '[Month]',
+        year: '[Year]',
+        rank:"[Rank]",
+        course:"[Course]"
+      },
+    };
+
+
+    const userInfo = await this.userInfoRepository.findOne({
+      where: {
+        walletAddress: 'HcUY736DPeVuFSj85nufCDXCY8sLfk517DsF6GSH1yvA',
+      },
+    });
+    const organizationMember = await this.organizationMemberRepository.find({
+      where: {
+        userId: userInfo.id,
+      },
+    });
+      const template = new CertificateTemplate();
+      
+      template.name = templateData.name;
+      template.organizationId = organizationMember[0].organizationId;
+      template.public = true;
+      template.fillStyle = templateData.fillStyle;
+      template.background = templateData.background;
+      template.height = templateData.height;
+      template.width = templateData.width;
+      template.atributtes = templateData.atributtes;
+      template.demo = templateData.demo;
+      await this.certificateTemplateRepository.save(template);
+    
+  }
 
   async createOrganizationCertificate(
     request,

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { createCanvas, loadImage } from 'canvas';
+import { isNil } from 'lodash';
 import { CertificateMember } from 'src/certificate/entities/certificate-member.entity';
 import { CertificateTemplate } from 'src/certificate/entities/certificate-template.entity';
 import { Repository } from 'typeorm';
@@ -34,28 +35,55 @@ export class ImageService {
 
   async getDemo() {
     const templateData = {
-      background: 'https://i.imgur.com/TeUtlJt.png',
-      height: 1414,
-      width: 2000,
+      background: 'https://i.imgur.com/QCXe7x4.png',
+      height: 1792,
+      width: 1296,
+      fillStyle:"white",
       atributtes: [
         {
           name: 'name',
           display: 'Name:',
-          font: '100px Arial',
-          x: 300,
-          y: 1050,
+          font: '50px Arial',
+          x: 900,
+          y: 750,
         },
         {
-          name: 'date',
-          display: 'date:',
+          name: 'month',
+          display: 'month:',
           font: '40px Arial',
-          x: 230,
-          y: 1580,
+          x: 390,
+          y: 1070,
+        },
+        
+        {
+          name: 'year',
+          display: 'year:',
+          font: '40px Arial',
+          x: 490,
+          y: 1070,
+        },        
+        {
+          name: 'rank',
+          display: 'rank:',
+          font: '40px Arial',
+          x: 910,
+          y: 870,
+        },
+        {
+          name: 'course',
+          display: 'course:',
+          font: '40px Arial',
+          x: 1080,
+          y: 815,
         },
       ],
+
       demo: {
-        name: '[Full Name Here]',
-        date: '[01/01/2024]',
+        name: '[Full_Name]',
+        month: '[Month]',
+        year: '[Year]',
+        rank:"[Rank]",
+        course:"[Course]"
       },
     };
 
@@ -81,6 +109,9 @@ export class ImageService {
       canvas.width,
       canvas.height,
     );
+    if(!isNil(template.fillStyle)){
+      ctx.fillStyle = template.fillStyle;
+    }
     template.atributtes.forEach((item) => {
       ctx.font = item.font;
       ctx.fillText(data[item.name], item.x, item.y);

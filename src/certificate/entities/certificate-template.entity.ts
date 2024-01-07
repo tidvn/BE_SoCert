@@ -33,6 +33,11 @@ export class CertificateTemplate extends AbstractEntity {
   width: number;
 
   @ApiProperty()
+  @Column({ name: 'fillStyle', nullable: true })
+  fillStyle: string;
+
+
+  @ApiProperty()
   @Column({ name: 'atributtes', nullable: true, type: 'jsonb' })
   atributtes: AtributtesCanvas[];
 

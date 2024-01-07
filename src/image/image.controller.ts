@@ -32,4 +32,5 @@ export class ImageController {
     res.setHeader('Content-Type', 'image/png');
     res.send(await this.imageService.getDemo());
   }
+
 }

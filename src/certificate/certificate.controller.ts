@@ -21,6 +21,11 @@ export class CertificateController {
     return this.certificateService.init();
   }
 
+  @Get('/init2')
+  initData2() {
+    return this.certificateService.init2();
+  }
+
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post('/collection/create')
