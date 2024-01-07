@@ -20,11 +20,13 @@ export class MetadataService {
   }
   async getCertificateNFTMetadata(id: string) {
     const cert = await this.certificateMemberRepository.findOne({ where: { id } });
+    const jsonData = cert.metadata;
+    const filteredCreators = jsonData.properties.creators.filter(creator => creator.address !== null && creator.address !== "");
 
-      const metadata =  cert.metadata.properties.creators.filter(creator => creator.address !== null && creator.address !== "");
-
-    return metadata;
+    // Tạo bản sao của đối tượng JSON và gán mảng "creators" mới
+    const outputData = { ...jsonData, properties: { ...jsonData.properties, creators: filteredCreators } };
     
+    return outputData;
     // const { wallet_address, ...metadata } = cert.metadata;
     // const creators = collection.metadata.creators.map((creator) => ({ address: creator, share: 100 }));
     //   return {
