@@ -206,7 +206,7 @@ export class CertificateService {
   async init2() {
     const templateData = {
       name: 'certificate of socert course',
-      background: 'https://i.imgur.com/QCXe7x4.png',
+      background: 'https://i.imgur.com/Xe0zOFr.png',
       height: 1792,
       width: 1296,
       fillStyle:"white",
@@ -270,7 +270,6 @@ export class CertificateService {
       },
     });
       const template = new CertificateTemplate();
-      
       template.name = templateData.name;
       template.organizationId = organizationMember[0].organizationId;
       template.public = true;
